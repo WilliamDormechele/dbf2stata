@@ -160,20 +160,24 @@ dbf2stata/
     └── dbf2stata.sthlp
 ```
 
-## Before publishing
+## Testing
 
-Replace the placeholders `YOUR NAME` and `YOUR-USERNAME` in `pyproject.toml`
-and `LICENSE`.
+The conversion engine is covered by automated tests for:
 
-Recommended release sequence:
+- DBF discovery using `.dbf` and `.DBF` extensions
+- lowercase variable names by default
+- preservation of DBF field-name case with `--keep-case`
+- numeric, logical and date conversion
+- default same-folder output
+- custom output directories
+- overwrite protection
+- explicit replacement of existing output files
+- missing input-file handling
 
-1. Create a public GitHub repository named `dbf2stata`.
-2. Add tests and sample DBF files that contain no sensitive data.
-3. Tag a first release such as `v0.1.0`.
-4. Publish the Python package to PyPI.
-5. Test installation on Windows, macOS, and Linux where possible.
-6. Package the `.ado` and `.sthlp` files for Stata distribution.
-7. Consider submitting the Stata command to SSC after the command and help file are stable.
+Run the test suite with:
+
+```bash
+python -m pytest
 
 ## License
 
