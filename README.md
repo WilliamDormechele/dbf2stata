@@ -1,5 +1,6 @@
 # dbf2stata
 
+[![CI](https://github.com/WilliamDormechele/dbf2stata/actions/workflows/ci.yml/badge.svg)](https://github.com/WilliamDormechele/dbf2stata/actions/workflows/ci.yml)
 `dbf2stata` converts DBF files to Stata `.dta` format from either Python or Stata.
 
 It is intended for research and legacy-data workflows where DBF collections may contain mixed date, datetime, numeric, logical, character, memo, currency, or FoxPro-style fields.
@@ -86,8 +87,23 @@ which dbf2stata
 help dbf2stata
 ```
 
-## Python usage
 
+### SSC installation
+
+The Stata package is being prepared for submission to the Statistical Software
+Components (SSC) Archive. Until SSC accepts and publishes the package, install
+the versioned Stata files from GitHub using the `net install` command above.
+
+Once the package has been accepted and published on SSC, installation will be:
+
+```stata
+ssc install dbf2stata
+```
+
+SSC submission preparation and the post-acceptance checklist are documented in
+`docs/SSC_SUBMISSION.md`.
+
+## Python usage
 ### Interactive
 
 Run:
@@ -226,8 +242,14 @@ python -m pytest
 
 Version 0.1.0 was additionally validated on a legacy DBF collection containing 81 files and 382,566 records, including end-to-end Python, PyPI, Stata, and public-installation tests.
 
-## Project links
 
+GitHub Actions runs the Python test suite on Windows and Linux across Python
+3.10, 3.11, 3.12, 3.13, and 3.14. A separate CI job builds the source
+distribution and wheel and validates both with Twine. Stata integration remains
+covered by the local/public smoke tests because Stata itself requires a licensed
+installation.
+
+## Project links
 - PyPI: https://pypi.org/project/dbf2stata/
 - Source code: https://github.com/WilliamDormechele/dbf2stata
 - Releases: https://github.com/WilliamDormechele/dbf2stata/releases

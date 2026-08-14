@@ -4,6 +4,7 @@ d Author: William Dormechele
 d Requires Stata 16 or newer, Python configured for Stata, and the dbf2stata Python package.
 d Python package: https://pypi.org/project/dbf2stata/
 d Source: https://github.com/WilliamDormechele/dbf2stata
+d Keywords: DBF; dBase; FoxPro; Stata; Python; data conversion; legacy data
 d Distribution-Date: 14aug2026
 f dbf2stata.ado
 f dbf2stata.sthlp

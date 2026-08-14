@@ -67,8 +67,24 @@ Verify the Stata installation:
 
 {p 8 8 2}{cmd:. help dbf2stata}
 
-{title:Options}
 
+{title:SSC installation}
+
+{pstd}
+The package is being prepared for submission to the Statistical Software
+Components (SSC) Archive. Until SSC accepts and publishes {cmd:dbf2stata},
+install the versioned Stata files from GitHub as described above.
+
+{pstd}
+Once the package has been accepted and published on SSC, installation will be:
+
+{p 8 8 2}{cmd:. ssc install dbf2stata}
+
+{pstd}
+The Python package must still be installed in the Python environment used by
+Stata.
+
+{title:Options}
 {phang}
 {opt inputdir(path)} specifies the folder containing the DBF files and bypasses
 the file chooser.
