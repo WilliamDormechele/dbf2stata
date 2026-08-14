@@ -64,7 +64,7 @@ Requirements:
 Until the SSC package is published, use these two Stata commands together:
 
 ```stata
-net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r2/stata")
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r3/stata")
 dbf2stata
 ```
 
@@ -272,7 +272,7 @@ dbf2stata_setup, upgrade
 Before SSC publication, reinstall the current SSC candidate with:
 
 ```stata
-net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r2/stata") replace
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r3/stata") replace
 dbf2stata
 ```
 

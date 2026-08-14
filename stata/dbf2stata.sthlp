@@ -44,7 +44,7 @@ install this dependency for the user.
 Until the SSC package is published, install the current SSC candidate with:
 
 {p 8 8 2}
-{cmd:. net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r2/stata")}
+{cmd:. net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r3/stata")}
 
 {pstd}
 After installation, start the command with:
@@ -78,6 +78,8 @@ The package is being submitted to the Statistical Software Components (SSC)
 Archive. After SSC accepts and publishes it, installation will be:
 
 {p 8 8 2}{cmd:. ssc install dbf2stata}
+
+{p 8 8 2}{cmd:. dbf2stata}
 
 {pstd}
 After installation, type {cmd:dbf2stata}. If the external Python dependency is
