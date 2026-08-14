@@ -61,17 +61,14 @@ Requirements:
 - Stata 16 or newer.
 - Python 3.10 or newer configured in Stata.
 
-Until the SSC package is published, install the immutable SSC candidate:
+Until the SSC package is published, use these two Stata commands together:
 
 ```stata
-net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14/stata")
-```
-
-Then simply run:
-
-```stata
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r2/stata")
 dbf2stata
 ```
+
+The second line is the normal first command to run after installation.
 
 Before opening a DBF file, the command checks whether the required Python engine is available.
 
@@ -117,15 +114,11 @@ dbf2stata_setup, upgrade
 
 The Stata package is being submitted to the Statistical Software Components (SSC) Archive.
 
-After SSC accepts and publishes the package, installation will be:
+After SSC accepts and publishes the package, users will install and start it
+with these two commands:
 
 ```stata
 ssc install dbf2stata
-```
-
-The user will then type:
-
-```stata
 dbf2stata
 ```
 
@@ -279,7 +272,8 @@ dbf2stata_setup, upgrade
 Before SSC publication, reinstall the current SSC candidate with:
 
 ```stata
-net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14/stata") replace
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r2/stata") replace
+dbf2stata
 ```
 
 After SSC publication:

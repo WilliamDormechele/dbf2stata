@@ -12,7 +12,7 @@ was not present on SSC at the time of the pre-submission check.
 The immutable pre-SSC candidate can be installed with:
 
 ```stata
-net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14/stata")
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r2/stata")
 ```
 
 After SSC acceptance and publication:
@@ -21,8 +21,39 @@ After SSC acceptance and publication:
 ssc install dbf2stata
 ```
 
-## Commands supplied
 
+## Intended user installation flow
+
+Before SSC publication:
+
+```stata
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r2/stata")
+dbf2stata
+```
+
+After SSC publication:
+
+```stata
+ssc install dbf2stata
+dbf2stata
+```
+
+If the Python dependency is missing, `dbf2stata` then tells the user to run:
+
+```stata
+dbf2stata_setup
+```
+
+After setup, the user reruns:
+
+```stata
+dbf2stata
+```
+
+This makes the first command after installation explicit while keeping Python
+dependency installation opt-in rather than silent.
+
+## Commands supplied
 The package supplies two user-facing Stata commands:
 
 ### `dbf2stata`
