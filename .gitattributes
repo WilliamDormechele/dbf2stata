@@ -1,0 +1,14 @@
+* text=auto
+
+# Source and documentation files use LF
+*.py text eol=lf
+*.toml text eol=lf
+*.md text eol=lf
+*.cff text eol=lf
+*.ado text eol=lf
+*.sthlp text eol=lf
+*.pkg text eol=lf
+*.toc text eol=lf
+
+# Windows batch files use CRLF
+*.bat text eol=crlf

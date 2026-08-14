@@ -1,0 +1,7 @@
+v 3
+d dbf2stata: Batch-convert DBF files to Stata .dta using the dbf2stata Python package
+d Requires Stata 16 or newer and the dbf2stata Python package.
+d Distribution-Date: 14aug2026
+f dbf2stata.ado
+f dbf2stata.sthlp
+e

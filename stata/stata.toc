@@ -1,0 +1,3 @@
+v 3
+d dbf2stata Stata package
+p dbf2stata Batch-convert DBF files to Stata .dta files
