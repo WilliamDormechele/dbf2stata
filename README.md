@@ -68,11 +68,23 @@ python query
 
 The output reports the executable under `python_exec`.
 
-Install `dbf2stata` into that Python environment. For example, in Windows PowerShell:
+Install `dbf2stata` into that Python environment.
+
+On Windows PowerShell:
 
 ```powershell
 & "PATH-REPORTED-BY-STATA\python.exe" -m pip install dbf2stata
 ```
+
+On macOS or Linux, open Terminal and run the Python executable reported by
+`python query`:
+
+```bash
+"/path/reported/by/Stata/python3" -m pip install dbf2stata
+```
+
+Quoting the executable path is recommended, particularly when the path contains
+spaces.
 
 Then install the Stata command for release `v0.1.0`:
 
@@ -200,8 +212,41 @@ with:
 - `r(failed)` number that failed
 - `r(records)` total records written
 
-## Updating
 
+## Platform support
+
+The Python conversion engine is platform-independent and is continuously tested
+on Windows, Linux, macOS Apple Silicon, and macOS Intel.
+
+The Stata command requires Stata 16 or newer with Python 3.10 or newer
+configured. Stata supports Python integration in ado-files, and the command uses
+cross-platform Stata and Python interfaces rather than Windows-specific file or
+path operations.
+
+For macOS Stata users, first run:
+
+```stata
+python query
+```
+
+Then install `dbf2stata` into that exact Python environment from Terminal:
+
+```bash
+"/path/reported/by/Stata/python3" -m pip install dbf2stata
+```
+
+The same Stata installation command is then used on macOS:
+
+```stata
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/v0.1.0/stata")
+```
+
+A portable licensed-Stata smoke test is provided in `tests/stata/`. Automated
+macOS CI validates the Python engine on both Apple Silicon and Intel runners;
+a real Stata-on-macOS run can be recorded separately when a licensed Mac Stata
+installation is available.
+
+## Updating
 ### Python
 
 Upgrade to the latest PyPI release:
@@ -243,11 +288,16 @@ python -m pytest
 Version 0.1.0 was additionally validated on a legacy DBF collection containing 81 files and 382,566 records, including end-to-end Python, PyPI, Stata, and public-installation tests.
 
 
-GitHub Actions runs the Python test suite on Windows and Linux across Python
-3.10, 3.11, 3.12, 3.13, and 3.14. A separate CI job builds the source
-distribution and wheel and validates both with Twine. Stata integration remains
-covered by the local/public smoke tests because Stata itself requires a licensed
-installation.
+GitHub Actions runs the Python test suite across Python 3.10, 3.11, 3.12,
+3.13, and 3.14 on Windows, Linux, and macOS Apple Silicon. Python 3.14 is also
+tested on a macOS Intel runner. A separate CI job builds the source distribution
+and wheel and validates both with Twine.
+
+The Stata wrapper uses Stata's documented Python integration, Stata Function
+Interface (`sfi`), operating-system file dialog, and Python `pathlib` paths.
+Because GitHub-hosted runners do not include a licensed Stata installation,
+licensed-Stata integration is tested separately with the portable smoke test in
+`tests/stata/`.
 
 ## Project links
 - PyPI: https://pypi.org/project/dbf2stata/

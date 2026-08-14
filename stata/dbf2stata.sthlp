@@ -31,7 +31,7 @@ The Stata command uses the same Python conversion engine as the
 {title:Requirements}
 
 {pstd}
-Stata 16 or newer with Python configured for Stata.
+Stata 16 or newer with Python 3.10 or newer configured for Stata.
 
 {pstd}
 The Python environment used by Stata must have the {cmd:dbf2stata}
@@ -53,6 +53,13 @@ For example, from Windows PowerShell:
 
 {p 8 8 2}
 {cmd:& "PATH-REPORTED-BY-STATA\python.exe" -m pip install dbf2stata}
+
+{pstd}
+On macOS or Linux, open Terminal and run the Python executable reported by
+{cmd:python query}:
+
+{p 8 8 2}
+{cmd:"/path/reported/by/Stata/python3" -m pip install dbf2stata}
 
 {pstd}
 Then install the Stata command for release 0.1.0:
@@ -83,6 +90,25 @@ Once the package has been accepted and published on SSC, installation will be:
 {pstd}
 The Python package must still be installed in the Python environment used by
 Stata.
+
+
+{title:Platform support}
+
+{pstd}
+The Python conversion engine is designed to run on Windows, macOS, and Linux.
+Continuous integration tests the Python package on Windows, Linux, macOS Apple
+Silicon, and macOS Intel.
+
+{pstd}
+The Stata command requires Stata 16 or newer with Python 3.10 or newer
+configured. It uses Stata's Python integration, the Stata Function Interface,
+the operating system's standard file dialog, and Python cross-platform path
+handling.
+
+{pstd}
+On macOS, use {cmd:python query} to identify the exact Python environment used
+by Stata, install the {cmd:dbf2stata} Python package into that environment, and
+then install the Stata package in the same way as on other platforms.
 
 {title:Options}
 {phang}

@@ -1,4 +1,4 @@
-﻿param(
+param(
     [string]$ProjectDir = (Split-Path -Parent $PSScriptRoot)
 )
 
@@ -10,8 +10,7 @@ Set-Location $ProjectDir
 $required = @(
     "stata\dbf2stata.ado",
     "stata\dbf2stata.sthlp",
-    "LICENSE",
-    "docs\SSC_SUBMISSION.md"
+    "docs\SSC_SUBMISSION_EMAIL.md"
 )
 
 foreach ($file in $required) {
@@ -31,13 +30,22 @@ New-Item -ItemType Directory -Force $stageDir | Out-Null
 
 Copy-Item "stata\dbf2stata.ado" $stageDir
 Copy-Item "stata\dbf2stata.sthlp" $stageDir
-Copy-Item "LICENSE" $stageDir
-Copy-Item "docs\SSC_SUBMISSION.md" $stageDir
 
-Compress-Archive -Path "$stageDir\*" -DestinationPath $zipPath -Force
+$emailText = Get-Content "docs\SSC_SUBMISSION_EMAIL.md" -Raw
+Set-Content `
+    (Join-Path $stageDir "SUBMISSION_EMAIL.txt") `
+    $emailText `
+    -Encoding UTF8
+
+Compress-Archive `
+    -Path "$stageDir\*" `
+    -DestinationPath $zipPath `
+    -Force
 
 Write-Host ""
-Write-Host "SSC submission bundle created:"
+Write-Host "SSC submission-preparation bundle created:"
 Write-Host $zipPath
 Write-Host ""
-Get-ChildItem $stageDir | Format-Table Name, Length -AutoSize
+
+Get-ChildItem $stageDir |
+    Format-Table Name, Length -AutoSize
