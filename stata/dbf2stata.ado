@@ -1,5 +1,7 @@
 *! dbf2stata 0.1.0 14aug2026
 *! Author: William Dormechele
+*! Repository: https://github.com/WilliamDormechele/dbf2stata
+*! Python package: https://pypi.org/project/dbf2stata/
 
 capture program drop dbf2stata
 
@@ -65,10 +67,7 @@ from sfi import Macro, SFIToolkit
 
 
 def _clean_stata_path(value):
-    """
-    Remove surrounding quotation marks that may be passed
-    from Stata while retaining the path itself unchanged.
-    """
+    """Remove surrounding quotation marks passed from Stata."""
 
     value = (value or "").strip()
 
@@ -91,14 +90,10 @@ def dbf2stata_run():
         raise RuntimeError(
             "The Python package 'dbf2stata' is not installed "
             "in the Python environment used by Stata. "
-            "Install dbf2stata into Stata's Python environment "
+            "Run 'python query' in Stata to identify that Python "
+            "environment, install dbf2stata there with pip, "
             "and rerun the command."
         ) from exc
-
-
-    # --------------------------------------------------------
-    # Read and clean paths supplied by Stata
-    # --------------------------------------------------------
 
     input_dir = _clean_stata_path(
         Macro.getLocal("inputdir")
@@ -112,7 +107,6 @@ def dbf2stata_run():
         Macro.getLocal("outputdir")
     )
 
-
     lowernames = (
         Macro.getLocal("lowernames") == "1"
     )
@@ -120,11 +114,6 @@ def dbf2stata_run():
     replace = (
         Macro.getLocal("doreplace") == "1"
     )
-
-
-    # --------------------------------------------------------
-    # Determine input directory
-    # --------------------------------------------------------
 
     if not input_dir:
 
@@ -140,25 +129,11 @@ def dbf2stata_run():
             .parent
         )
 
-
-    # --------------------------------------------------------
-    # Determine output directory
-    # --------------------------------------------------------
-    #
-    # If outputdir() is omitted, output goes into the
-    # original DBF directory.
-    # --------------------------------------------------------
-
     output_arg = (
         output_dir
         if output_dir
         else None
     )
-
-
-    # --------------------------------------------------------
-    # Run conversion
-    # --------------------------------------------------------
 
     results = convert_directory(
         input_dir,
@@ -166,7 +141,6 @@ def dbf2stata_run():
         lowernames=lowernames,
         replace=replace,
     )
-
 
     success = sum(
         result.success
@@ -182,11 +156,6 @@ def dbf2stata_run():
         for result in results
         if result.success
     )
-
-
-    # --------------------------------------------------------
-    # Display results in Stata
-    # --------------------------------------------------------
 
     SFIToolkit.displayln("")
 
@@ -218,7 +187,6 @@ def dbf2stata_run():
 
     SFIToolkit.displayln("")
 
-
     for result in results:
 
         if result.success:
@@ -235,11 +203,6 @@ def dbf2stata_run():
                 f"FAIL {result.source.name}: "
                 f"{result.error}"
             )
-
-
-    # --------------------------------------------------------
-    # Summary
-    # --------------------------------------------------------
 
     SFIToolkit.displayln("")
 
@@ -262,11 +225,6 @@ def dbf2stata_run():
         f"Total records written:  "
         f"{records:,}"
     )
-
-
-    # --------------------------------------------------------
-    # Return results to Stata
-    # --------------------------------------------------------
 
     Macro.setLocal(
         "dbf2stata_found",
