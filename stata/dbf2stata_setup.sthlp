@@ -24,6 +24,11 @@ checks that Python 3.10 or newer is available, checks for pip, and verifies
 whether the public {cmd:dbf2stata} Python package can be imported.
 
 {pstd}
+During setup, the command displays the package author, the PyPI package URL,
+and the public source-code URL so users can verify the provenance of the
+external dependency.
+
+{pstd}
 If the package is missing, {cmd:dbf2stata_setup} explicitly installs:
 
 {p 8 8 2}

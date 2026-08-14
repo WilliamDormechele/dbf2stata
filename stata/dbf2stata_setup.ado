@@ -118,6 +118,16 @@ def dbf2stata_setup_run():
     SFIToolkit.displayln("dbf2stata setup")
     SFIToolkit.displayln("----------------")
     SFIToolkit.displayln(
+        "Author:            William Dormechele"
+    )
+    SFIToolkit.displayln(
+        "Python package:    https://pypi.org/project/dbf2stata/"
+    )
+    SFIToolkit.displayln(
+        "Source code:       https://github.com/WilliamDormechele/dbf2stata"
+    )
+    SFIToolkit.displayln("")
+    SFIToolkit.displayln(
         f"Python version:    {python_version}"
     )
     SFIToolkit.displayln(

@@ -12,7 +12,7 @@ was not present on SSC at the time of the pre-submission check.
 The immutable pre-SSC candidate can be installed with:
 
 ```stata
-net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r3/stata")
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r4/stata")
 ```
 
 After SSC acceptance and publication:
@@ -27,7 +27,7 @@ ssc install dbf2stata
 Before SSC publication:
 
 ```stata
-net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r3/stata")
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r4/stata")
 dbf2stata
 ```
 

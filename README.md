@@ -64,7 +64,7 @@ Requirements:
 Until the SSC package is published, use these two Stata commands together:
 
 ```stata
-net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r3/stata")
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r4/stata")
 dbf2stata
 ```
 
@@ -79,6 +79,8 @@ If the Python package is missing, `dbf2stata` stops and tells the user exactly w
 ```stata
 dbf2stata_setup
 ```
+
+During setup, Stata displays the package author, PyPI package URL, and source-code URL so users can verify the provenance of the external dependency.
 
 `dbf2stata_setup` then:
 
@@ -272,7 +274,7 @@ dbf2stata_setup, upgrade
 Before SSC publication, reinstall the current SSC candidate with:
 
 ```stata
-net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r3/stata") replace
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r4/stata") replace
 dbf2stata
 ```
 

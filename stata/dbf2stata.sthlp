@@ -44,7 +44,7 @@ install this dependency for the user.
 Until the SSC package is published, install the current SSC candidate with:
 
 {p 8 8 2}
-{cmd:. net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r3/stata")}
+{cmd:. net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14-r4/stata")}
 
 {pstd}
 After installation, start the command with:
