@@ -178,6 +178,17 @@ Run the test suite with:
 
 ```bash
 python -m pytest
+```
+
+The initial development version was additionally validated on a legacy DBF collection containing 81 files and 382,566 records.
+
+## Author
+
+William Dormechele
+
+## Citation
+
+If you use `dbf2stata` in research, please cite the software using the citation metadata provided in `CITATION.cff`.
 
 ## License
 
