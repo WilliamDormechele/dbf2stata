@@ -1,4 +1,4 @@
 v 3
 d dbf2stata Stata package
-d Batch DBF-to-Stata conversion backed by the dbf2stata Python package
+d Batch DBF-to-Stata conversion with guided Python dependency setup
 p dbf2stata Batch-convert DBF files to Stata .dta files

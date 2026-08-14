@@ -10,6 +10,48 @@ program define dbf2stata, rclass
 
     syntax [, INPUTDir(string) OUTPUTDir(string) KEEPCASE REPLACE]
 
+    /*
+        Check the Python dependency before asking the user for a DBF.
+        This does not install anything automatically.
+    */
+    local dbf2stata_dependency_ready "0"
+    local dbf2stata_dependency_reason ""
+
+    capture noisily python: dbf2stata_dependency_check()
+
+    if _rc != 0 {
+        display as error ""
+        display as error "dbf2stata could not start Stata's Python integration."
+        display as error ""
+        display as text  "Run:"
+        display as result "    python query"
+        display as text  ""
+        display as text  "dbf2stata requires Stata 16 or newer with Python 3.10 or newer configured."
+        display as text  "After Python is configured, run:"
+        display as result "    dbf2stata_setup"
+        exit _rc
+    }
+
+    if "`dbf2stata_dependency_ready'" != "1" {
+        display as error ""
+        display as error "dbf2stata's Python dependency is not ready."
+
+        if `"`dbf2stata_dependency_reason'"' != "" {
+            display as text "`dbf2stata_dependency_reason'"
+        }
+
+        display as text ""
+        display as text "Run this once:"
+        display as result "    dbf2stata_setup"
+        display as text ""
+        display as text "Then rerun:"
+        display as result "    dbf2stata"
+        display as text ""
+        display as text "For details, type:"
+        display as result "    help dbf2stata_setup"
+        exit 499
+    }
+
     local selected ""
 
     /*
@@ -63,6 +105,10 @@ version 16.0
 python:
 
 from pathlib import Path
+import importlib
+import importlib.metadata
+import sys
+
 from sfi import Macro, SFIToolkit
 
 
@@ -81,19 +127,50 @@ def _clean_stata_path(value):
     return value
 
 
+def dbf2stata_dependency_check():
+    """
+    Check that Stata's Python is recent enough and that the
+    dbf2stata conversion engine can be imported.
+
+    This check never installs or upgrades packages.
+    """
+
+    ready = False
+    reason = ""
+
+    if sys.version_info < (3, 10):
+        reason = (
+            "Python 3.10 or newer is required. "
+            f"Stata is currently using Python {sys.version.split()[0]}."
+        )
+
+    else:
+        try:
+            importlib.invalidate_caches()
+            from dbf2stata.core import convert_directory  # noqa: F401
+
+            ready = True
+
+        except Exception:
+            reason = (
+                "The dbf2stata Python package is not installed "
+                "or cannot be imported in Stata's Python environment."
+            )
+
+    Macro.setLocal(
+        "dbf2stata_dependency_ready",
+        "1" if ready else "0",
+    )
+
+    Macro.setLocal(
+        "dbf2stata_dependency_reason",
+        reason,
+    )
+
+
 def dbf2stata_run():
 
-    try:
-        from dbf2stata.core import convert_directory
-
-    except ImportError as exc:
-        raise RuntimeError(
-            "The Python package 'dbf2stata' is not installed "
-            "in the Python environment used by Stata. "
-            "Run 'python query' in Stata to identify that Python "
-            "environment, install dbf2stata there with pip, "
-            "and rerun the command."
-        ) from exc
+    from dbf2stata.core import convert_directory
 
     input_dir = _clean_stata_path(
         Macro.getLocal("inputdir")

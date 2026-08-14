@@ -25,8 +25,8 @@ By default, .dta files are saved in the same folder as the source DBFs and
 variable names are converted to lowercase.
 
 {pstd}
-The Stata command uses the same Python conversion engine as the
-{cmd:dbf2stata} command-line package.
+The Stata command uses the public {cmd:dbf2stata} Python package as its
+conversion engine.
 
 {title:Requirements}
 
@@ -34,83 +34,78 @@ The Stata command uses the same Python conversion engine as the
 Stata 16 or newer with Python 3.10 or newer configured for Stata.
 
 {pstd}
-The Python environment used by Stata must have the {cmd:dbf2stata}
-Python package installed.
+The {cmd:dbf2stata} Python package must be installed in the Python environment
+used by Stata. The companion {help dbf2stata_setup:dbf2stata_setup} command can
+install this dependency for the user.
 
 {title:Installation}
 
 {pstd}
-First identify the Python environment used by Stata:
+Until the SSC package is published, install the current SSC candidate with:
+
+{p 8 8 2}
+{cmd:. net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14/stata")}
+
+{pstd}
+Then type:
+
+{p 8 8 2}{cmd:. dbf2stata}
+
+{pstd}
+Before opening a DBF, {cmd:dbf2stata} checks whether its Python engine is
+available. If the Python package is missing, the command stops with clear
+instructions to run:
+
+{p 8 8 2}{cmd:. dbf2stata_setup}
+
+{pstd}
+{cmd:dbf2stata_setup} uses the exact Python executable already being used by
+Stata and installs the required Python package from PyPI. The main
+{cmd:dbf2stata} command never silently installs or upgrades Python packages.
+
+{pstd}
+Users who want to check Stata's Python configuration can type:
 
 {p 8 8 2}{cmd:. python query}
 
 {pstd}
-The output reports the executable under {cmd:python_exec}. Install
-{cmd:dbf2stata} into that Python environment using pip.
-
-{pstd}
-For example, from Windows PowerShell:
-
-{p 8 8 2}
-{cmd:& "PATH-REPORTED-BY-STATA\python.exe" -m pip install dbf2stata}
-
-{pstd}
-On macOS or Linux, open Terminal and run the Python executable reported by
-{cmd:python query}:
-
-{p 8 8 2}
-{cmd:"/path/reported/by/Stata/python3" -m pip install dbf2stata}
-
-{pstd}
-Then install the Stata command for release 0.1.0:
-
-{p 8 8 2}
-{cmd:. net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/v0.1.0/stata")}
-
-{pstd}
-Verify the Stata installation:
-
-{p 8 8 2}{cmd:. which dbf2stata}
-
-{p 8 8 2}{cmd:. help dbf2stata}
-
+For setup details, see {help dbf2stata_setup}.
 
 {title:SSC installation}
 
 {pstd}
-The package is being prepared for submission to the Statistical Software
-Components (SSC) Archive. Until SSC accepts and publishes {cmd:dbf2stata},
-install the versioned Stata files from GitHub as described above.
-
-{pstd}
-Once the package has been accepted and published on SSC, installation will be:
+The package is being submitted to the Statistical Software Components (SSC)
+Archive. After SSC accepts and publishes it, installation will be:
 
 {p 8 8 2}{cmd:. ssc install dbf2stata}
 
 {pstd}
-The Python package must still be installed in the Python environment used by
-Stata.
-
+After installation, type {cmd:dbf2stata}. If the external Python dependency is
+not yet available, {cmd:dbf2stata} will direct the user to
+{cmd:dbf2stata_setup}.
 
 {title:Platform support}
 
 {pstd}
-The Python conversion engine is designed to run on Windows, macOS, and Linux.
-Continuous integration tests the Python package on Windows, Linux, macOS Apple
-Silicon, and macOS Intel.
+The Python conversion engine is tested on Windows, Linux, macOS Apple Silicon,
+and macOS Intel.
 
 {pstd}
-The Stata command requires Stata 16 or newer with Python 3.10 or newer
-configured. It uses Stata's Python integration, the Stata Function Interface,
-the operating system's standard file dialog, and Python cross-platform path
-handling.
+The Stata command uses Stata's Python integration, the Stata Function Interface,
+the operating system's file dialog, and Python cross-platform path handling.
 
 {pstd}
-On macOS, use {cmd:python query} to identify the exact Python environment used
-by Stata, install the {cmd:dbf2stata} Python package into that environment, and
-then install the Stata package in the same way as on other platforms.
+The setup command does not hard-code Windows, macOS, or Linux Python paths.
+Instead, it invokes pip through {cmd:sys.executable}, which is the Python
+interpreter currently running inside Stata.
+
+{pstd}
+The Windows licensed-Stata integration has been tested directly. A portable
+licensed-Stata smoke test is included for additional Stata installations,
+including Stata for Mac.
 
 {title:Options}
+
 {phang}
 {opt inputdir(path)} specifies the folder containing the DBF files and bypasses
 the file chooser.
@@ -187,3 +182,8 @@ Source code and issue tracker:
 
 {pstd}
 MIT License.{p_end}
+
+{title:Also see}
+
+{psee}
+{help dbf2stata_setup}

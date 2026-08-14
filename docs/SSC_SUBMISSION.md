@@ -2,19 +2,17 @@
 
 ## Current status
 
-`dbf2stata` is publicly available from PyPI and GitHub. The Stata component is
-ready for submission to the Statistical Software Components (SSC) Archive,
-subject to the archive maintainer's review and acceptance.
+`dbf2stata` is publicly available from PyPI and GitHub. The Stata package is
+ready for SSC review, subject to the archive maintainer's acceptance.
 
 A Stata search performed on 14 August 2026 returned no match for `dbf2stata`,
 and `ssc describe dbf2stata` returned `r(601)`, indicating that the package name
 was not present on SSC at the time of the pre-submission check.
 
-Until SSC accepts and publishes the package, Stata users should install the
-versioned files from GitHub:
+The immutable pre-SSC candidate can be installed with:
 
 ```stata
-net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/v0.1.0/stata")
+net install dbf2stata, from("https://raw.githubusercontent.com/WilliamDormechele/dbf2stata/ssc-candidate-2026-08-14/stata")
 ```
 
 After SSC acceptance and publication:
@@ -22,6 +20,33 @@ After SSC acceptance and publication:
 ```stata
 ssc install dbf2stata
 ```
+
+## Commands supplied
+
+The package supplies two user-facing Stata commands:
+
+### `dbf2stata`
+
+Batch-converts DBF files to Stata `.dta` files.
+
+Before conversion it checks whether its external Python engine is importable.
+It never silently installs or upgrades a Python package.
+
+### `dbf2stata_setup`
+
+A companion, explicitly invoked setup utility.
+
+It:
+
+- identifies the exact Python executable running inside Stata;
+- requires Python 3.10 or newer;
+- checks pip;
+- checks whether the public `dbf2stata` Python package is available;
+- installs `dbf2stata>=0.1.0,<0.2.0` from PyPI if it is missing;
+- verifies that the conversion engine imports successfully.
+
+Because the user explicitly types `dbf2stata_setup`, the external dependency is
+not installed silently.
 
 ## Proposed SSC metadata
 
@@ -34,16 +59,15 @@ ssc install dbf2stata
 **Affiliation:** University of East Anglia, United Kingdom
 
 **Abstract:** `dbf2stata` batch-converts DBF files in a directory to Stata
-`.dta` format. The Stata command uses the public `dbf2stata` Python package as
-its conversion engine. It supports DBF date and datetime fields, numeric and
-logical fields, character and memo fields, lowercase variable names by default,
-optional preservation of DBF field-name case, user-selected output directories,
-and overwrite protection. With no options, the command opens the operating
-system's standard file chooser and converts all DBF files in the selected
-file's directory.
+`.dta` format using the public `dbf2stata` Python package as its conversion
+engine. It supports DBF date and datetime fields, numeric and logical fields,
+character and memo fields, lowercase variable names by default, optional
+preservation of DBF field-name case, user-selected output directories, and
+overwrite protection. The companion `dbf2stata_setup` command checks Stata's
+configured Python environment and, when explicitly invoked by the user, installs
+the required public PyPI dependency into that same environment.
 
-**Requires:** Stata 16 or newer; Python 3.10 or newer configured for Stata; the
-`dbf2stata` Python package installed in the Python environment used by Stata.
+**Requires:** Stata 16 or newer; Python 3.10 or newer configured for Stata.
 
 **External Python dependency:** https://pypi.org/project/dbf2stata/
 
@@ -58,45 +82,44 @@ batch conversion
 
 ## Platform support
 
-The conversion engine uses `pathlib`, pandas, and dbfread and contains no
-Windows-specific path logic. Continuous integration tests the Python package on:
+The Python engine is automatically tested on:
 
 - Windows
 - Linux
 - macOS Apple Silicon
 - macOS Intel
 
-The Stata wrapper uses Stata's documented Python integration, `sfi`, and
-`window fopen`. The portable licensed-Stata smoke test is under `tests/stata/`.
+The setup mechanism uses `sys.executable -m pip`, rather than an
+operating-system-specific Python path.
 
-The Windows Stata integration has been tested on a licensed Stata installation.
-The Python engine is automatically tested on macOS Apple Silicon and Intel.
-Until a licensed Stata-on-macOS run has also been performed, do not describe
-that final integration layer as independently validated on macOS; describe it
-as supported by the cross-platform implementation and macOS engine tests.
+The Stata wrapper uses Stata's Python integration, `sfi`, the operating
+system's standard file dialog, and Python cross-platform path handling.
+
+The Windows licensed-Stata integration has been tested directly. A portable
+licensed-Stata smoke test is available for additional installations, including
+Stata for Mac.
 
 ## SSC files to submit
 
-The core installation files are:
+Attach these four files:
 
 - `dbf2stata.ado`
 - `dbf2stata.sthlp`
-
-The GitHub-specific `dbf2stata.pkg` and `stata.toc` files do not need to be sent
-as core SSC installation files. License and repository information are already
-documented in the help file and public source repository.
+- `dbf2stata_setup.ado`
+- `dbf2stata_setup.sthlp`
 
 ## Submission recipient
 
-The current Boston College faculty page for Christopher F. Baum lists:
+Christopher F. Baum
+Boston College
+
+Email:
 
 ```text
 kit.baum@bc.edu
 ```
 
-The indexed SSC submission guidance is `SSCSUBMIT`, Statistical Software
-Components S436501, revised 2 May 2022. Review the live/current SSC submission
-guidance immediately before sending.
+Review the current SSC submission guidance immediately before sending.
 
 ## Submission email
 
@@ -104,13 +127,6 @@ A prepared email is stored in:
 
 ```text
 docs/SSC_SUBMISSION_EMAIL.md
-```
-
-Attach:
-
-```text
-dbf2stata.ado
-dbf2stata.sthlp
 ```
 
 ## Build the submission bundle
@@ -127,9 +143,6 @@ Output:
 dist\ssc\dbf2stata-ssc-submission.zip
 ```
 
-The ZIP is for convenient review/submission preparation. The two Stata files
-listed above are the core package files.
-
 ## Final pre-submission checklist
 
 - [x] Public GitHub repository.
@@ -139,12 +152,13 @@ listed above are the core package files.
 - [x] Python package build and Twine validation.
 - [x] Windows licensed-Stata smoke test.
 - [x] Public GitHub/net-install test.
+- [x] Windows/Linux/macOS Python CI.
 - [x] Package-name search returned no match on 14 August 2026.
 - [x] `ssc describe dbf2stata` returned not found on 14 August 2026.
-- [ ] macOS Python CI passes after the macOS matrix is added.
-- [ ] Optional but desirable: licensed Stata smoke test on macOS.
-- [ ] Review current `SSCSUBMIT` guidance immediately before sending.
-- [ ] Email `dbf2stata.ado` and `dbf2stata.sthlp` for SSC review.
+- [x] Guided Python dependency setup implemented.
+- [ ] Guided dependency setup passes the final licensed-Stata smoke test.
+- [ ] Review current SSC submission guidance immediately before sending.
+- [ ] Email the four Stata files for SSC review.
 - [ ] Await SSC acceptance/publication.
 - [ ] After acceptance, verify `ssc describe dbf2stata`.
 - [ ] After acceptance, verify `ssc install dbf2stata, replace`.
@@ -158,10 +172,13 @@ Once SSC confirms publication:
 capture ado uninstall dbf2stata
 ssc install dbf2stata, replace
 which dbf2stata
+which dbf2stata_setup
 help dbf2stata
+help dbf2stata_setup
+dbf2stata_setup
 ```
 
-Then run a real DBF conversion and inspect:
+Then run a real conversion and inspect:
 
 ```stata
 return list
